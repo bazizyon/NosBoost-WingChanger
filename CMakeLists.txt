@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
-project(NosBoostModKit)
+project(WingChanger)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,18 +20,19 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
-add_library(ExampleMod SHARED
-        ExampleMod/ExampleMod.cpp
-        WidgetKit/WidgetKit.cpp
+add_library(WingChanger SHARED
+        WingChanger/WingChanger.cpp
+        WingChanger/Wings.cpp
+        WingChanger/Nos.cpp
+        WingChanger/Library.cpp
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_draw.cpp
         ${imgui_SOURCE_DIR}/imgui_tables.cpp
         ${imgui_SOURCE_DIR}/imgui_widgets.cpp
 )
 
-target_include_directories(ExampleMod PRIVATE
+target_include_directories(WingChanger PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/WidgetKit
         ${nosboost_sdk_SOURCE_DIR}/classes
         ${nosboost_sdk_SOURCE_DIR}/classes/enums
         ${nosboost_sdk_SOURCE_DIR}/classes/structs
@@ -40,10 +41,11 @@ target_include_directories(ExampleMod PRIVATE
         ${imgui_SOURCE_DIR}
 )
 
-target_compile_options(ExampleMod PRIVATE /EHsc /MP)
+target_compile_options(WingChanger PRIVATE /EHsc /MP)
+target_link_libraries(WingChanger PRIVATE windowscodecs ole32 shell32)
 
 if(NOT DEFINED ENV{CI})
-    set_target_properties(ExampleMod PROPERTIES
+    set_target_properties(WingChanger PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "C:/Program Files (x86)/Nostale/mods"
     )
 endif()
